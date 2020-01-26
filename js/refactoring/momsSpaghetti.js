@@ -85,6 +85,7 @@ const lyrics = {
 // REFACTOR THIS CODE //
 // This code assembles the above object into a string with the lyrics for Eminem's "lose Yourself". 
 // The result should look like https://www.google.ca/search?rlz=1C5CHFA_enCA764CA764&ei=4iFbWs_VG43CjwOJ465Q&q=lose+yourself+lyrics&oq=lose+yoursle&gs_l=psy-ab.3.0.0i10k1l10.6780.11717.0.12640.28.24.0.2.2.0.275.2686.4j13j2.20.0....0...1c.1.64.psy-ab..15.12.1403.0..0j0i67k1j0i131k1j0i131i67k1.234.XSGvMUvV4XY
+
 function momsSpagetti(lyrics) {
 
     var loseYourself;
@@ -109,6 +110,78 @@ function momsSpagetti(lyrics) {
     loseYourself = loseYourself + lyrics.ending;
 
     return loseYourself;
+
+    
 }
 
+
 // REFACTORED VERSION HERE //
+
+//I noticed that the Spaghetti was spelt wrong on the file name and the momsSpagetti function, so I updated it.
+//In my code I use "\n" to indicate a new line, however if you wanted this to print out in html just replace "\n" with "<br>"
+// An example of html version can be found here: https://codepen.io/jmoore-code/pen/wvBOZBG
+
+//A for...of loop is a cleaner way to iterate over an object
+const momsSpaghetti = new Promise((resolve, reject) => {
+  var loseYourself;
+  loseYourself = lyrics.intro;
+  for (let item of lyrics.choruses) {
+    loseYourself =
+      loseYourself +
+      "\n\n" +
+      item.chorus +
+      "\n\n" +
+      lyrics.refrain +
+      "\n\n" +
+      lyrics.refrain;
+  }
+  loseYourself = loseYourself +  "\n\n" + lyrics.ending;
+  resolve(loseYourself);
+});
+
+
+//for...of loop is the typical choice for iterating over string as it loops through values of an iterable object 
+// This particular loop only works because of the formating that was put in the lyrics object, if you run the orignal
+//function it is apparent that there are 4 spaces at the end of every line break which can then be used in logic
+//to signify where a new line can be inserted.
+
+momsSpaghetti.then((song) => {
+    let printedSong = "";
+    let spaces = 0;
+    for (const char of song) {
+    
+        if (char === " ") {
+            spaces++
+        } else {
+            spaces = 0
+        }
+        if (spaces === 4 ) {
+
+            printedSong += char + "\n";
+           
+        } else if (spaces > 4) {
+            printedSong = printedSong //This will pass over the extra indents to make everything "left justified"
+        }
+        else {
+            printedSong += char
+        }
+    }
+    console.log(printedSong);
+    return printedSong
+})
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
